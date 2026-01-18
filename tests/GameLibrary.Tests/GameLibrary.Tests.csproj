@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\GameLibrary.csproj" />
+    <ProjectReference Include="..\..\src\GameLibrary.csproj" />
   </ItemGroup>
 
   <ItemGroup>
