@@ -21,75 +21,95 @@ public class TreasureChestTests : IDisposable
         output.WriteLine($"Final chest count: {chests.Count}");
     }
 
-    [Fact]
-    public void CanOpen_ChestIsLockedAndHasKey_ReturnsTrue()
+    [Theory]
+    [InlineData(true, true, true)]
+    [InlineData(true, false, false)]
+    [InlineData(false, true, true)]
+    [InlineData(false, false, true)]
+    public void CanOpen_WhenCalled_ReturnsExpectedOutcome(bool isLocked, bool hasKey, bool expected)
     {
         // Arrange
-        bool isLocked = true;
-        bool hasKey = true;
         var sut = new TreasureChest(isLocked);
         chests.Push(sut);
         output.WriteLine($"Chest count: {chests.Count}");
 
         // Act
-        var result = sut.CanOpen(hasKey);
+        var actual = sut.CanOpen(hasKey);
 
         // Assert
-        Assert.True(result);
+        Assert.Equal(expected, actual);
         Assert.Single(chests);
     }
 
-    [Fact]
-    public void CanOpen_ChestIsLockedAndHasNoKey_ReturnsFalse()
-    {
-        // Arrange
-        bool isLocked = true;
-        bool hasKey = false;
-        var sut = new TreasureChest(isLocked);
-        chests.Push(sut);
-        output.WriteLine($"Chest count: {chests.Count}");
+    //[Fact]
+    //public void CanOpen_ChestIsLockedAndHasKey_ReturnsTrue()
+    //{
+    //    // Arrange
+    //    bool isLocked = true;
+    //    bool hasKey = true;
+    //    var sut = new TreasureChest(isLocked);
+    //    chests.Push(sut);
+    //    output.WriteLine($"Chest count: {chests.Count}");
 
-        // Act
-        var result = sut.CanOpen(hasKey);
+    //    // Act
+    //    var result = sut.CanOpen(hasKey);
 
-        // Assert
-        Assert.False(result);
-        Assert.Single(chests);
-    }
+    //    // Assert
+    //    Assert.True(result);
+    //    Assert.Single(chests);
+    //}
 
-    [Fact]
-    public void CanOpen_ChestIsUnlockedAndHasKey_ReturnsTrue()
-    {
-        // Arrange
-        bool isLocked = false;
-        bool hasKey = true;
-        var sut = new TreasureChest(isLocked);
-        chests.Push(sut);
-        output.WriteLine($"Chest count: {chests.Count}");
+    //[Fact]
+    //public void CanOpen_ChestIsLockedAndHasNoKey_ReturnsFalse()
+    //{
+    //    // Arrange
+    //    bool isLocked = true;
+    //    bool hasKey = false;
+    //    var sut = new TreasureChest(isLocked);
+    //    chests.Push(sut);
+    //    output.WriteLine($"Chest count: {chests.Count}");
 
-        // Act
-        var result = sut.CanOpen(hasKey);
+    //    // Act
+    //    var result = sut.CanOpen(hasKey);
 
-        // Assert
-        Assert.True(result);
-        Assert.Single(chests);
-    }
+    //    // Assert
+    //    Assert.False(result);
+    //    Assert.Single(chests);
+    //}
 
-    [Fact]
-    public void CanOpen_ChestIsUnlockedAndHasNoKey_ReturnsTrue()
-    {
-        // Arrange
-        bool isLocked = false;
-        bool hasKey = false;
-        var sut = new TreasureChest(isLocked);
-        chests.Push(sut);
-        output.WriteLine($"Chest count: {chests.Count}");
+    //[Fact]
+    //public void CanOpen_ChestIsUnlockedAndHasKey_ReturnsTrue()
+    //{
+    //    // Arrange
+    //    bool isLocked = false;
+    //    bool hasKey = true;
+    //    var sut = new TreasureChest(isLocked);
+    //    chests.Push(sut);
+    //    output.WriteLine($"Chest count: {chests.Count}");
 
-        // Act
-        var result = sut.CanOpen(hasKey);
+    //    // Act
+    //    var result = sut.CanOpen(hasKey);
 
-        // Assert
-        Assert.True(result);
-        Assert.Single(chests);
-    }
+    //    // Assert
+    //    Assert.True(result);
+    //    Assert.Single(chests);
+    //}
+
+    //[Fact]
+    //public void CanOpen_ChestIsUnlockedAndHasNoKey_ReturnsTrue()
+    //{
+    //    // Arrange
+    //    bool isLocked = false;
+    //    bool hasKey = false;
+    //    var sut = new TreasureChest(isLocked);
+    //    chests.Push(sut);
+    //    output.WriteLine($"Chest count: {chests.Count}");
+
+    //    // Act
+    //    var result = sut.CanOpen(hasKey);
+
+    //    // Assert
+    //    Assert.True(result);
+    //    Assert.Single(chests);
+    //}
 }
