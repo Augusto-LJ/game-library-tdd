@@ -69,4 +69,17 @@ public class PlayerTests
         sut.InventoryItems.Should().Contain(item);
         sut.InventoryItems.Should().ContainSingle(item => item.Id == 101 && item.Name == "Sword");
     }
+
+    [Fact]
+    public void Greet_NullOrEmptyGreeting_ThrowsArgumentException()
+    {
+        // Arrange
+        Player sut = new("Augusto", 1, DateTime.Now);
+
+        // Act
+        Action act = () => sut.Greet("");
+
+        // Assert
+        act.Should().Throw<ArgumentException>();
+    }
 }
