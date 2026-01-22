@@ -1,4 +1,6 @@
-﻿namespace GameLibrary.Tests;
+﻿using FluentAssertions;
+
+namespace GameLibrary.Tests;
 
 public class PlayerTests
 {
@@ -12,8 +14,12 @@ public class PlayerTests
         sut.IncreaseLevel();
 
         // Assert
-        Assert.Equal(2, sut.Level);
-        Assert.InRange(sut.Level, 2, 100);
+        sut.Level.Should().Be(2);
+        sut.Level.Should().BeGreaterThan(1);
+        sut.Level.Should().BeGreaterThanOrEqualTo(2);
+        sut.Level.Should().BePositive();
+        sut.Level.Should().NotBe(1);
+        sut.Level.Should().BeInRange(2, 100);
     }
 
     [Fact]
@@ -26,11 +32,10 @@ public class PlayerTests
         var result = sut.Greet("Hello");
 
         // Assert
-        Assert.Equal("Hello, Augusto!", result);
-        Assert.Contains("Augusto", result);
-        Assert.EndsWith("Augusto!", result);
-        Assert.NotNull(result);
-        Assert.NotEmpty(result);
+        result.Should().Be("Hello, Augusto!");
+        result.Should().Contain("Augusto");
+        result.Should().EndWith("Augusto!");
+        result.Should().NotBeNullOrWhiteSpace();
     }
 
     [Fact]
@@ -43,6 +48,8 @@ public class PlayerTests
         Player sut = new("Augusto", 1, currentDate);
 
         // Assert
-        Assert.Equal(currentDate, sut.JoinDate);
+        sut.JoinDate.Should().Be(currentDate);
+        sut.JoinDate.Should().BeCloseTo(currentDate, TimeSpan.FromMilliseconds(500));
+        sut.JoinDate.Should().BeWithin(TimeSpan.FromMilliseconds(500)).Before(currentDate);
     }
 }
