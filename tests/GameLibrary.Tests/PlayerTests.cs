@@ -82,4 +82,18 @@ public class PlayerTests
         // Assert
         act.Should().Throw<ArgumentException>();
     }
+
+    [Fact]
+    public void IncreaseLevel_WhenCalled_RaisesLevelUpEvent()
+    {
+        // Arrange
+        Player sut = new("Augusto", 1, DateTime.Now);
+        using var monitoredSut = sut.Monitor();
+
+        // Act
+        sut.IncreaseLevel();
+
+        // Assert
+        monitoredSut.Should().Raise(nameof(sut.LevelUp));
+    }
 }
