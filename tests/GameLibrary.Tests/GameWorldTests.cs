@@ -38,4 +38,34 @@ public class GameWorldTests
         // Assert
         actual.Should().BeEquivalentTo(expected);
     }
+
+    [Fact]
+    public void RecordPlayerGameWin_ValidPlayerAndScore_UpdatePlayerStatistics()
+    {
+        // Arrange
+        var player = new Player("Augusto", 10, new DateTime(2020, 1, 1));
+
+        var stats = new PlayerStatistics
+        {
+            PlayerName = player.Name,
+            GamesPlayed = 10,
+            TotalScore = 1000
+        };
+
+        var statisticsServerMock = Substitute.For<IPlayerStatisticsService>();
+        statisticsServerMock.GetPlayerStatistics(player.Name).Returns(stats);
+
+        var sut = new GameWorld(statisticsServerMock);
+
+        // Act
+        sut.RecordPlayerGameWin(player, 20);
+
+        // Assert
+        statisticsServerMock.Received().UpdatePlayerStatistics(Arg.Any<PlayerStatistics>());
+        statisticsServerMock.Received().UpdatePlayerStatistics(Arg.Is<PlayerStatistics>(stats => 
+                                            stats.PlayerName == player.Name &&
+                                            stats.GamesPlayed == 11 &
+                                            stats.TotalScore == 1020));
+
+    }
 }
