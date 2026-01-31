@@ -96,4 +96,25 @@ public class PlayerTests
         // Assert
         monitoredSut.Should().Raise(nameof(sut.LevelUp));
     }
+
+    // Antipattern: Do not have multiple AAA sections
+    [Fact]
+    public void GrantExperienceAndIncreaseLevel_WhenCalled_IncreaseExpecienceAndLevel()
+    {
+        // Arrange
+        Player sut = new("Augusto", 1, DateTime.Now);
+        var initialExperiencePoints = sut.ExperiencePoints;
+
+        // Act
+        sut.GrantExperiencePoints(8, 10);
+
+        // Assert
+        sut.ExperiencePoints.Should().BeGreaterThan(initialExperiencePoints);
+
+        // Act
+        sut.IncreaseLevel();
+
+        // Assert
+        sut.Level.Should().Be(2);
+    }
 }
