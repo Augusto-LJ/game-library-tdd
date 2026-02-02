@@ -4,11 +4,16 @@ namespace GameLibrary.Tests;
 
 public class PlayerTests
 {
+    private static Player CreatePlayer(string name = "Bob", int level = 2, DateTime? joinDate = null)
+    {
+        return new(name, level, joinDate ?? DateTime.Now);
+    }
+
     [Fact]
     public void IncreaseLevel_WhenCalled_HasExpectedLevel()
     {
         // Arrange
-        Player sut = new("Augusto", 1, DateTime.Now);
+        Player sut = CreatePlayer(level: 1);
 
         // Act
         sut.IncreaseLevel();
@@ -26,7 +31,7 @@ public class PlayerTests
     public void Greet_ValidGreeting_ReturnsGreetingWithName()
     {
         // Arrange
-        Player sut = new("Augusto", 1, DateTime.Now);
+        Player sut = CreatePlayer(name: "Augusto");
 
         // Act
         var result = sut.Greet("Hello");
@@ -45,7 +50,7 @@ public class PlayerTests
         var currentDate = DateTime.Now;
 
         // Act
-        Player sut = new("Augusto", 1, currentDate);
+        Player sut = CreatePlayer(joinDate: currentDate);
 
         // Assert
         sut.JoinDate.Should().Be(currentDate);
@@ -57,7 +62,7 @@ public class PlayerTests
     public void AddItemToInventory_WithValidItem_AddsTheItem()
     {
         // Arrange
-        Player sut = new("Augusto", 1, DateTime.Now);
+        Player sut = CreatePlayer();
         var item = new InventoryItem(101, "Sword", "A sharp blade");
 
         // Act
@@ -74,7 +79,7 @@ public class PlayerTests
     public void Greet_NullOrEmptyGreeting_ThrowsArgumentException()
     {
         // Arrange
-        Player sut = new("Augusto", 1, DateTime.Now);
+        Player sut = CreatePlayer();
 
         // Act
         Action act = () => sut.Greet("");
@@ -87,7 +92,7 @@ public class PlayerTests
     public void IncreaseLevel_WhenCalled_RaisesLevelUpEvent()
     {
         // Arrange
-        Player sut = new("Augusto", 1, DateTime.Now);
+        Player sut = CreatePlayer();
         using var monitoredSut = sut.Monitor();
 
         // Act
@@ -102,7 +107,7 @@ public class PlayerTests
     public void GrantExperienceAndIncreaseLevel_WhenCalled_IncreaseExpecienceAndLevel()
     {
         // Arrange
-        Player sut = new("Augusto", 1, DateTime.Now);
+        Player sut = CreatePlayer(level: 1);
         var initialExperiencePoints = sut.ExperiencePoints;
 
         // Act
